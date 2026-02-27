@@ -1,0 +1,67 @@
+﻿@model ProyectoFinal.Models.Curso
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Editar Curso";
+}
+
+<h2>Editar Curso</h2>
+
+<form asp-action="Edit" enctype="multipart/form-data" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group mb-3">
+        <label asp-for="Nombre" class="form-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Creditos" class="form-label"></label>
+        <input asp-for="Creditos" class="form-control" />
+        <span asp-validation-for="Creditos" class="text-danger"></span>
+    </div>
+
+    <!--  Carrera -->
+    <div class="form-group mb-3">
+        <label asp-for="CarreraId" class="form-label"></label>
+        <select asp-for="CarreraId" class="form-control" asp-items="ViewBag.Carreras">
+            <option value="">-- Seleccione una carrera --</option>
+        </select>
+        <span asp-validation-for="CarreraId" class="text-danger"></span>
+    </div>
+
+    <!-- Profesor -->
+    <div class="form-group mb-3">
+        <label asp-for="ProfesorId" class="form-label"></label>
+        <select asp-for="ProfesorId" class="form-control" asp-items="ViewBag.Profesores">
+            <option value="">-- Seleccione un profesor --</option>
+        </select>
+        <span asp-validation-for="ProfesorId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label class="form-label">Imagen Actual</label><br />
+        @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+        {
+            <img src="@Model.ImagenUrl" width="150" />
+        }
+        else
+        {
+            <p>No hay imagen</p>
+        }
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Imagen" class="form-label">Cambiar Imagen</label>
+        <input asp-for="Imagen" type="file" class="form-control" />
+        <span asp-validation-for="Imagen" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace ProyectoFinal.Models
 {
@@ -16,12 +15,12 @@ namespace ProyectoFinal.Models
         [Required(ErrorMessage = "La escuela es obligatoria")]
         public string Escuela { get; set; }
 
-        //[ValidateNever]
-        //public List<Curso> Cursos { get; set; }
-
+        
         public string? ImagenUrl { get; set; }
 
         [NotMapped]
         public IFormFile? Imagen { get; set; }
+        [ValidateNever]
+        public virtual ICollection<ApplicationUser> Estudiantes { get; set; }
     }
 }

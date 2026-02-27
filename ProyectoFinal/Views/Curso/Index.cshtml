@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ProyectoFinal.Models.Curso>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Créditos</th>
+            <th>Imagen</th>
+            <th>Profesor</th>
+            <th>Carrera</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nombre</td>
+                <td>@item.Creditos</td>
+                <td>@item.Imagen</td>
+                <td>@item.Profesor.NombreCompleto</td>
+                <td>@item.Carrera.Nombre</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImagenUrl))
+                    {
+                        <img src="@item.ImagenUrl" width="100" />
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-success">Nuevo Curso</a>

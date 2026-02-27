@@ -1,0 +1,11 @@
+﻿@model Carrera
+
+<h2>@Model.Nombre</h2>
+<p><strong>Escuela:</strong> @Model.Escuela</p>
+
+@if (Model.ImagenUrl != null)
+{
+    <img src="@Model.ImagenUrl" width="200" />
+}
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Volver</a>

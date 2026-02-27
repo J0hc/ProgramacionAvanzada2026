@@ -1,2 +1,20 @@
 ﻿<h2>Panel de Administrador</h2>
 <p>Bienvenido, administrador!</p>
+
+
+<li class="nav-item">
+    <a asp-controller="Carreras"
+       asp-action="Index"
+       class="nav-link">
+        Carreras
+    </a>
+</li>
+
+
+<a asp-controller="Profesor" asp-action="Index" class="btn btn-success">
+    Gestionar Profesores
+</a>
+
+<a asp-controller="Curso" asp-action="Index" class="btn btn-success">
+    Gestionar Cursos
+    </a>

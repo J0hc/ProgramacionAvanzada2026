@@ -4,7 +4,7 @@ using ProyectoFinal.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Registrar DbContext
+// Registrar Context
 builder.Services.AddDbContext<ProyectoFinalContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -13,7 +13,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ProyectoFinalContext>()
     .AddDefaultTokenProviders();
 
-// MVC
+// Patrones MVC
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -56,12 +56,12 @@ using (var scope = app.Services.CreateScope())
             NombreCompleto = "Administrador"
         };
 
-        await userManager.CreateAsync(user, "Admin123!");
+        await userManager.CreateAsync(user, "Admin123");
         await userManager.AddToRoleAsync(user, "Administrador");
     }
 }
 
-// 6️⃣ Rutas
+// Rutas
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Cuenta}/{action=Login}/{id?}");

@@ -1,0 +1,15 @@
+﻿
+
+@model ProyectoFinal.Models.Profesor
+
+<h2>Eliminar Profesor</h2>
+
+<div class="alert alert-warning">
+    <p>¿Está seguro de eliminar al profesor <strong>@Model.NombreCompleto</strong>?</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
