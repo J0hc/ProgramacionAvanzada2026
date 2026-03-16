@@ -1,20 +1,35 @@
-﻿<h2>Panel de Administrador</h2>
-<p>Bienvenido, administrador!</p>
+﻿<h1 class="dashboard-title">¡Bienvenido, Administrador!</h1>
 
 
-<li class="nav-item">
+<!-- Opciones para Crear -->
+<div class="dashboard-actions">
+
+    <a asp-controller="Curso"
+       asp-action="Create"
+       class="btn-dashboard">
+        Registrar Cursos
+    </a>
+
     <a asp-controller="Carreras"
-       asp-action="Index"
-       class="nav-link">
-        Carreras
+       asp-action="Create"
+       class="btn-dashboard">
+        Registrar Carreras
     </a>
-</li>
+
+    <a asp-controller="Profesor"
+       asp-action="Create"
+       class="btn-dashboard">
+        Registrar Profesores
+    </a>
+
+</div>
+
+<div class="section-divider"></div>
 
 
-<a asp-controller="Profesor" asp-action="Index" class="btn btn-success">
-    Gestionar Profesores
+<!--Se termina luego, aqui se cargan las carreras-->
+<h3 class="section-title">Todas las carreras</h3>
+
+<a asp-controller="Carreras" asp-action="Index" class="btn-dashboard">
+    Gestionar Carreras
 </a>
-
-<a asp-controller="Curso" asp-action="Index" class="btn btn-success">
-    Gestionar Cursos
-    </a>

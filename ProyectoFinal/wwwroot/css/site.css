@@ -1,22 +1,242 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* Estilo General del Fondo Color Y Letra*/
 body {
-  margin-bottom: 60px;
+    background-color: #e6e6e6;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Se Reciclan Componentes...*/
+
+
+/*Header*/
+.main-header {
+    background: #9a6c47;
+    padding: 15px 0;
+}
+
+.header-container {
+    width: 1100px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.main-nav {
+    display: flex;
+    gap: 40px;
+}
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.main-nav a:hover {
+        text-decoration: underline;
+}
+
+
+/* Container de TODOS los formularios */
+.form-container {
+    width: 600px;
+    margin: 80px auto;
+    background-color: #9a6c47;
+    border: 3px solid black;
+    padding: 40px;
+    color: white;
+}
+
+/* Titulo del formulario */
+.form-title {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Subtitulos */
+.form-subtitle {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+/* Los inputs como grupo*/
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Los Labels */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Los Inputs individuales */
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #d9b88f;
+}
+
+/* Botón mas importante */
+.btn-main {
+    display: block;
+    width: 250px;
+    margin: 30px auto 0 auto;
+    padding: 10px;
+    background-color: #6f4a2e;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-main:hover {
+        background-color: #5a3c25;
+}
+
+/* Links */
+.form-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-footer a {
+    color: white;
+    font-weight: bold;
+}
+
+
+select.form-input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #d9b88f;
+}
+
+/*  -------------  DASHBOARD  -------------*/
+
+/*Titulos*/
+.dashboard-title {
+    font-size: 42px;
+    margin: 40px 0 20px 0;
+}
+/*Las acciones*/
+.dashboard-actions {
+    display: flex;
+    gap: 40px;
+    margin: 30px 0;
+}
+/*Boton*/
+.btn-dashboard {
+    background: #6f4a2e;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    border: none;
+}
+
+.btn-dashboard:hover {
+    background: #5a3c25;
+}
+
+/* -------- SECCIONES --------- */
+/*Para dividir*/
+.section-divider {
+    margin: 40px 0;
+    border-bottom: 1px solid #bbb;
+}
+
+/*Titulo*/
+.section-title {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* ---- CARRERAS ----- */
+.carrera-card {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    border: 2px solid #2f5d50;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.carrera-img {
+    width: 150px;
+    height: 90px;
+    object-fit: cover;
+}
+
+.carrera-info h3 {
+    margin: 0;
+}
+
+.carrera-info p {
+    margin: 3px 0;
+}
+
+.btn-card {
+    margin-left: auto;
+    background: #6f4a2e;
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+}
+
+.btn-card:hover {
+    background: #5a3c25;
+}
+
+/* ------------ Admin ---------- */
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    background: #6f4a2e;
+    color: white;
+    padding: 10px;
+}
+
+.admin-table td {
+    padding: 10px;
+     border-bottom: 1px solid #ddd;
+}
+
+.admin-table img {
+    width: 80px;
+}
+
+.btn-action {
+    padding: 6px 10px;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.btn-edit {
+    background: #f0ad4e;
+    color: white;
+}
+
+.btn-details {
+    background: #5bc0de;
+    color: white;
+}
+
+.btn-delete {
+    background: #d9534f;
+    color: white;
 }

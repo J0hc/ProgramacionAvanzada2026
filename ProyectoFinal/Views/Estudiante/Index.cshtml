@@ -1,9 +1,24 @@
 ﻿@model ProyectoFinal.Models.ApplicationUser
 
-<h2>Panel Estudiante</h2>
+<h1 class="dashboard-title">
+    Universidad De Programacion
+</h1>
 
 @if (Model != null)
 {
-    <p>Bienvenido, @Model.NombreCompleto</p>
-    <p>Carrera: @Model.Carrera?.Nombre</p>
+
+    <div class="carrera-card">
+
+        <div class="carrera-info">
+
+            <h3>Bienvenido, @Model.NombreCompleto</h3>
+
+            <p>
+                Carrera: <strong>@Model.Carrera?.Nombre</strong>
+            </p>
+
+        </div>
+
+    </div>
+
 }

@@ -1,6 +1,16 @@
 ﻿@model IEnumerable<ProyectoFinal.Models.Curso>
 
-<table class="table">
+<h2 class="section-title">Cursos</h2>
+
+<a asp-action="Create" class="btn-dashboard">
+    Nuevo Curso
+</a>
+
+<br />
+<br />
+
+<table class="admin-table">
+
     <thead>
         <tr>
             <th>Nombre</th>
@@ -11,28 +21,47 @@
             <th>Acciones</th>
         </tr>
     </thead>
+
     <tbody>
+
         @foreach (var item in Model)
         {
             <tr>
+
                 <td>@item.Nombre</td>
+
                 <td>@item.Creditos</td>
-                <td>@item.Imagen</td>
-                <td>@item.Profesor.NombreCompleto</td>
-                <td>@item.Carrera.Nombre</td>
+
                 <td>
                     @if (!string.IsNullOrEmpty(item.ImagenUrl))
                     {
-                        <img src="@item.ImagenUrl" width="100" />
+                        <img src="@item.ImagenUrl" />
                     }
                 </td>
+
+                <td>@item.Profesor?.NombreCompleto</td>
+
+                <td>@item.Carrera?.Nombre</td>
+
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+
+                    <a asp-action="Edit"
+                       asp-route-id="@item.Id"
+                       class="btn-action btn-edit">
+                        Editar
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@item.Id"
+                       class="btn-action btn-delete">
+                        Eliminar
+                    </a>
+
                 </td>
+
             </tr>
         }
-    </tbody>
-</table>
 
-<a asp-action="Create" class="btn btn-success">Nuevo Curso</a>
+    </tbody>
+
+</table>

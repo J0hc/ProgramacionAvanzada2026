@@ -1,11 +1,17 @@
 ﻿@model IEnumerable<ProyectoFinal.Models.Profesor>
 
-<h2>Profesores</h2>
+<h2 class="section-title">Profesores</h2>
 
-<a asp-action="Create" class="btn btn-success mb-3">Agregar Profesor</a>
+<a asp-action="Create" class="btn-dashboard">
+    Agregar Profesor
+</a>
 
-<table class="table table-striped table-bordered">
-    <thead class="table-dark">
+<br />
+<br />
+
+<table class="admin-table">
+
+    <thead>
         <tr>
             <th>Nombre</th>
             <th>Email</th>
@@ -13,18 +19,38 @@
             <th>Acciones</th>
         </tr>
     </thead>
+
     <tbody>
+
         @foreach (var profesor in Model)
         {
             <tr>
+
                 <td>@profesor.NombreCompleto</td>
+
                 <td>@profesor.Email</td>
+
                 <td>@profesor.Especialidad</td>
+
                 <td>
-                    <a asp-action="Edit" asp-route-id="@profesor.Id" class="btn btn-warning btn-sm">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@profesor.Id" class="btn btn-danger btn-sm">Eliminar</a>
+
+                    <a asp-action="Edit"
+                       asp-route-id="@profesor.Id"
+                       class="btn-action btn-edit">
+                        Editar
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@profesor.Id"
+                       class="btn-action btn-delete">
+                        Eliminar
+                    </a>
+
                 </td>
+
             </tr>
         }
+
     </tbody>
+
 </table>

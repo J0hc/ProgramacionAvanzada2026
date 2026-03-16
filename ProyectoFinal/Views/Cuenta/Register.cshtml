@@ -1,39 +1,75 @@
 ﻿@model Registro
 
 @{
-    ViewData["Title"] = "Registro Estudiante";
+    ViewData["Title"] = "Registro de Estudiantes";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="form-container">
 
-<form asp-action="Register" method="post">
+    <h1 class="form-title">@ViewData["Title"]</h1>
 
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div>
-        <label>Nombre Completo</label>
-        <input asp-for="NombreCompleto" />
-        <span asp-validation-for="NombreCompleto"></span>
-    </div>
-    <div>
-        <label>Email</label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div>
-        <label>Contraseña</label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <label>Confirmar Contraseña</label>
-        <input asp-for="ConfirmPassword" type="password" />
-        <span asp-validation-for="ConfirmPassword"></span>
-    </div>
+    <p class="form-subtitle">
+        Complete el formulario para crear su cuenta.
+    </p>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.CarreraId)
-        @Html.DropDownListFor(m => m.CarreraId, Model.Carreras, "-- Selecciona Una Carrera --", new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.CarreraId, "", new { @class = "text-danger" })
-    </div>
-    <button type="submit">Registrarse</button>
-</form>
+    <form asp-action="Register" method="post">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label>Nombre Completo</label>
+            <input asp-for="NombreCompleto" class="form-input" />
+            <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input asp-for="Email" class="form-input" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Contraseña</label>
+            <input asp-for="Password" type="password" class="form-input" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Confirmar Contraseña</label>
+            <input asp-for="ConfirmPassword" type="password" class="form-input" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CarreraId"></label>
+
+            @Html.DropDownListFor(
+            m => m.CarreraId,
+                        Model.Carreras,
+                        "-- Seleccione una Carrera --",
+                        new { @class = "form-input" }
+                        )
+
+            @Html.ValidationMessageFor(
+                        m => m.CarreraId,
+                        "",
+                        new { @class = "text-danger" }
+                        )
+        </div>
+
+        <button type="submit" class="btn-main">
+            Registrarse
+        </button>
+
+        <div class="form-footer">
+            <p>
+                ¿Ya tienes cuenta?
+                <a asp-controller="Cuenta" asp-action="Login">
+                    Iniciar sesión
+                </a>
+            </p>
+        </div>
+
+    </form>
+
+</div>

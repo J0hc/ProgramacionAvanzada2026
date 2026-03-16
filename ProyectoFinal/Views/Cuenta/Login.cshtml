@@ -3,29 +3,41 @@
     ViewData["Title"] = "Login";
 }
 
-<h2>@ViewData["Title"]</h2>
+<div class="form-container">
 
-<form asp-action="Login" method="post">
-    <div>
-        <label>Email</label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div>
-        <label>Contraseña</label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <input asp-for="RememberMe" type="checkbox" /> Recordarme
-    </div>
-    <button type="submit">Login</button>
+    <h1 class="form-title">Iniciar Sesión</h1>
 
-    <!-- Registro -->
-    <p>
-        ¿No tienes cuenta?
-        <a asp-controller="Cuenta" asp-action="Register" class="btn btn-success">
-            Registrarse
-        </a>
+    <p class="form-subtitle">
+        Construya su futuro con la mejor universidad en programación.
     </p>
-</form>
+
+    <form asp-action="Login" method="post">
+
+        <div class="form-group">
+            <label>Email</label>
+            <input asp-for="Email" class="form-input" />
+            <span asp-validation-for="Email"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Contraseña</label>
+            <input asp-for="Password" type="password" class="form-input" />
+            <span asp-validation-for="Password"></span>
+        </div>
+
+        <button type="submit" class="btn-main">
+            Iniciar Sesión
+        </button>
+
+        <div class="form-footer">
+            <p>
+                ¿No tienes cuenta?
+                <a asp-controller="Cuenta" asp-action="Register">
+                    Registrarse
+                </a>
+            </p>
+        </div>
+
+    </form>
+
+</div>
