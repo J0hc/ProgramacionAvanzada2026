@@ -9,4 +9,8 @@ public class ApplicationUser : IdentityUser
     // Asociar Carreras
     public int? CarreraId { get; set; } 
     public virtual Carrera Carrera { get; set; }
+
+    public List<Matricula> Matriculas { get; set; }
+
+    public string? FotoUrl { get; set; }
 }

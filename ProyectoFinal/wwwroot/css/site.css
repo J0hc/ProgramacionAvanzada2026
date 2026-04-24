@@ -134,6 +134,7 @@ select.form-input {
     display: flex;
     gap: 40px;
     margin: 30px 0;
+    justify-content: center; 
 }
 /*Boton*/
 .btn-dashboard {
@@ -151,7 +152,8 @@ select.form-input {
 /* -------- SECCIONES --------- */
 /*Para dividir*/
 .section-divider {
-    margin: 40px 0;
+    margin: 40px;
+    max-width: 75vw;
     border-bottom: 1px solid #bbb;
 }
 
@@ -239,4 +241,46 @@ select.form-input {
 .btn-delete {
     background: #d9534f;
     color: white;
+}
+
+/*------- Para Tablas -------*/
+
+.dashboard-table {
+    max-width: 90%; 
+    text-align: center
+}
+
+.dashboard-table th,.dashboard-table td {
+    padding: 8px; 
+    font-size: 14px;
+}
+
+.dashboard-table td:last-child {
+    white-space: nowrap; 
+}
+
+.center-btn {
+    display: block;
+    margin: 20px auto;
+}
+
+
+.card-actions {
+    margin-left: auto; 
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/**Iconos de Rol*/
+
+.role-badge {
+    background: #6f4a2e;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }

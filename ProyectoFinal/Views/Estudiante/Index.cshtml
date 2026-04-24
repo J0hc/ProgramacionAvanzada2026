@@ -7,18 +7,69 @@
 @if (Model != null)
 {
 
+    <!-- BIENVENIDA -->
     <div class="carrera-card">
 
         <div class="carrera-info">
-
             <h3>Bienvenido, @Model.NombreCompleto</h3>
 
             <p>
                 Carrera: <strong>@Model.Carrera?.Nombre</strong>
             </p>
-
         </div>
 
     </div>
+
+    <!-- BOTÓN REGISTRAR -->
+    <div class="dashboard-actions">
+        <a asp-controller="Matricula"
+           asp-action="Index"
+           class="btn-dashboard">
+            Registrar Cursos
+        </a>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- LOS CURSOS -->
+    <h3 class="section-title">Tus cursos</h3>
+
+    @if (Model.Matriculas != null && Model.Matriculas.Any())
+    {
+        foreach (var m in Model.Matriculas)
+        {
+            var curso = m.Curso;
+
+            <div class="carrera-card">
+
+                @if (curso.ImagenUrl != null)
+                {
+                    <img src="@curso.ImagenUrl" class="carrera-img" />
+                }
+
+                <div class="carrera-info">
+                    <h3>@curso.Nombre</h3>
+                    <p>Créditos: @curso.Creditos</p>
+                    <p>Profesor: @curso.Profesor?.NombreCompleto</p>
+                </div>
+
+                <!-- BOTÓN BORRAR -->
+                <form asp-controller="Matricula" asp-action="Delete" method="post">
+                    <input type="hidden" name="cursoId" value="@curso.Id" />
+
+                    <button type="submit" class="btn btn-danger" style="background:#d9534f;">
+                        Quitar
+                    </button>
+                </form>
+
+            </div>
+        }
+    }
+    else
+    {
+        <p style="text-align:center; margin-top:20px;">
+            No tienes cursos matriculados.
+        </p>
+    }
 
 }

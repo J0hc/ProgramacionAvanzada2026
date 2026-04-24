@@ -30,6 +30,9 @@
 
 <form asp-action="Delete" method="post">
     <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Eliminar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    <button type="submit" class="btn btn-danger center-btn">Eliminar</button>
 </form>
+
+<div class="form-footer">
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</div>

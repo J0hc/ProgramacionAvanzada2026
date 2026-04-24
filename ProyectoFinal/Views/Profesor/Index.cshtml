@@ -2,7 +2,7 @@
 
 <h2 class="section-title">Profesores</h2>
 
-<a asp-action="Create" class="btn-dashboard">
+<a asp-action="Create" class="btn btn-success">
     Agregar Profesor
 </a>
 
@@ -33,18 +33,19 @@
                 <td>@profesor.Especialidad</td>
 
                 <td>
-
+                    <div class="card-actions">
                     <a asp-action="Edit"
                        asp-route-id="@profesor.Id"
-                       class="btn-action btn-edit">
+                           class="btn btn-warning">
                         Editar
                     </a>
 
                     <a asp-action="Delete"
                        asp-route-id="@profesor.Id"
-                       class="btn-action btn-delete">
+                       class="btn btn-danger">
                         Eliminar
                     </a>
+                </div>
 
                 </td>
 

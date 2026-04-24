@@ -5,62 +5,79 @@
     ViewData["Title"] = "Editar Curso";
 }
 
-<h2>Editar Curso</h2>
+<div class="form-container">
 
-<form asp-action="Edit" enctype="multipart/form-data" method="post">
-    <input type="hidden" asp-for="Id" />
+    <h2 class="form-title">Editar Curso</h2>
+    <p class="form-subtitle">Modifica la información del curso</p>
 
-    <div class="form-group mb-3">
-        <label asp-for="Nombre" class="form-label"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
-    </div>
+    <form asp-action="Edit" enctype="multipart/form-data" method="post">
 
-    <div class="form-group mb-3">
-        <label asp-for="Creditos" class="form-label"></label>
-        <input asp-for="Creditos" class="form-control" />
-        <span asp-validation-for="Creditos" class="text-danger"></span>
-    </div>
+        <input type="hidden" asp-for="Id" />
 
-    <!--  Carrera -->
-    <div class="form-group mb-3">
-        <label asp-for="CarreraId" class="form-label"></label>
-        <select asp-for="CarreraId" class="form-control" asp-items="ViewBag.Carreras">
-            <option value="">-- Seleccione una carrera --</option>
-        </select>
-        <span asp-validation-for="CarreraId" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="Nombre"></label>
+            <input asp-for="Nombre" class="form-input" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
 
-    <!-- Profesor -->
-    <div class="form-group mb-3">
-        <label asp-for="ProfesorId" class="form-label"></label>
-        <select asp-for="ProfesorId" class="form-control" asp-items="ViewBag.Profesores">
-            <option value="">-- Seleccione un profesor --</option>
-        </select>
-        <span asp-validation-for="ProfesorId" class="text-danger"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="Creditos"></label>
+            <input asp-for="Creditos" class="form-input" />
+            <span asp-validation-for="Creditos" class="text-danger"></span>
+        </div>
 
-    <div class="form-group mb-3">
-        <label class="form-label">Imagen Actual</label><br />
-        @if (!string.IsNullOrEmpty(Model.ImagenUrl))
-        {
-            <img src="@Model.ImagenUrl" width="150" />
-        }
-        else
-        {
-            <p>No hay imagen</p>
-        }
-    </div>
+        <!-- Carrera -->
+        <div class="form-group">
+            <label asp-for="CarreraId"></label>
+            <select asp-for="CarreraId" class="form-input" asp-items="ViewBag.Carreras">
+                <option value="">-- Seleccione una carrera --</option>
+            </select>
+            <span asp-validation-for="CarreraId" class="text-danger"></span>
+        </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="Imagen" class="form-label">Cambiar Imagen</label>
-        <input asp-for="Imagen" type="file" class="form-control" />
-        <span asp-validation-for="Imagen" class="text-danger"></span>
-    </div>
+        <!-- Profesor -->
+        <div class="form-group">
+            <label asp-for="ProfesorId"></label>
+            <select asp-for="ProfesorId" class="form-input" asp-items="ViewBag.Profesores">
+                <option value="">-- Seleccione un profesor --</option>
+            </select>
+            <span asp-validation-for="ProfesorId" class="text-danger"></span>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
+        <!-- Imagen actual -->
+        <div class="form-group">
+            <label>Imagen Actual</label>
+
+            @if (!string.IsNullOrEmpty(Model.ImagenUrl))
+            {
+                <div style="text-align:center; margin-bottom:10px;">
+                    <img src="@Model.ImagenUrl" class="carrera-img" style="width:150px; height:auto;" />
+                </div>
+            }
+            else
+            {
+                <p style="text-align:center;">No hay imagen</p>
+            }
+        </div>
+
+        <!-- Nueva imagen -->
+        <div class="form-group">
+            <label asp-for="Imagen">Cambiar Imagen</label>
+            <input asp-for="Imagen" type="file" class="form-input" />
+            <span asp-validation-for="Imagen" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success center-btn">
+            Guardar Cambios
+        </button>
+
+        <div class="form-footer">
+            <a asp-action="Index" class="btn btn-secondary">Volver</a>
+        </div>
+
+    </form>
+
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

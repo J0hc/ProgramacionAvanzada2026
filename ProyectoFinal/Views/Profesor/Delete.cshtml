@@ -1,15 +1,31 @@
-﻿
+﻿@model ProyectoFinal.Models.Profesor
 
-@model ProyectoFinal.Models.Profesor
+<div class="form-container">
 
-<h2>Eliminar Profesor</h2>
+    <h2 class="form-title">Eliminar Profesor</h2>
+    <p class="form-subtitle">Esta acción no se puede deshacer</p>
 
-<div class="alert alert-warning">
-    <p>¿Está seguro de eliminar al profesor <strong>@Model.NombreCompleto</strong>?</p>
+    <div class="form-group" style="text-align:center;">
+        <p>
+            ¿Está seguro de eliminar al profesor
+            <strong>@Model.NombreCompleto</strong>?
+        </p>
+    </div>
+
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger center-btn">Eliminar</button>
+    </form>
+
+    <div class="form-footer">
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </div>
+
 </div>
 
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Eliminar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
+
+
+
+
+

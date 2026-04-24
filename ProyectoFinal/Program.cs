@@ -56,7 +56,7 @@ using (var scope = app.Services.CreateScope())
             NombreCompleto = "Administrador"
         };
 
-        await userManager.CreateAsync(user, "Admin123");
+        await userManager.CreateAsync(user, "Admin123!");
         await userManager.AddToRoleAsync(user, "Administrador");
     }
 }

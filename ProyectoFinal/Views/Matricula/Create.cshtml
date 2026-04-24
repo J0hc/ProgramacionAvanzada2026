@@ -1,0 +1,97 @@
+﻿@model IEnumerable<ProyectoFinal.Models.Curso>
+
+@{
+    var cursosMatriculados = ViewBag.CursosMatriculados as List<int> ?? new List<int>();
+    int total = ViewBag.TotalMatriculados ?? 0;
+}
+
+<h1 class="dashboard-title">Registrar Cursos</h1>
+
+<div class="section-divider"></div>
+
+<h3 class="section-title">Cursos disponibles</h3>
+
+<!-- fILTRO BUSCAR -->
+<form method="get" asp-action="Index" style="text-align:center; margin-bottom:25px;">
+
+    <input type="text"
+           name="search"
+           value="@ViewBag.Search"
+           placeholder="Buscar curso..."
+           class="form-input"
+           style="width:250px; display:inline-block;" />
+
+    <button type="submit" class="btn-dashboard">
+        🔍
+    </button>
+
+</form>
+
+<p style="text-align:center; font-weight:bold;">
+    Cursos matriculados: @total / 4
+</p>
+
+<!-- SE MUESTRA LISTA -->
+@if (Model != null && Model.Any())
+{
+    foreach (var curso in Model)
+    {
+        bool yaMatriculado = cursosMatriculados.Contains(curso.Id);
+        bool limiteAlcanzado = total >= 4;
+
+        <div class="carrera-card">
+
+            @if (curso.ImagenUrl != null)
+            {
+                <img src="@curso.ImagenUrl" class="carrera-img" />
+            }
+
+            <div class="carrera-info">
+                <h3>@curso.Nombre</h3>
+                <p>Créditos: @curso.Creditos</p>
+                <p>Profesor: @curso.Profesor?.NombreCompleto</p>
+            </div>
+
+            <!-- BOTONES  -->
+            <div style="margin-left:auto; display:flex; align-items:center;">
+
+                @if (yaMatriculado)
+                {
+                    <button class="btn-card" style="background: gray;" disabled>
+                        Matriculado
+                    </button>
+                }
+                else if (limiteAlcanzado)
+                {
+                    <button class="btn-card" style="background: #999;" disabled>
+                        Límite alcanzado
+                    </button>
+                }
+                else
+                {
+                    <form asp-action="Create" method="post">
+                        <input type="hidden" name="cursoId" value="@curso.Id" />
+
+                        <button type="submit" class="btn-card">
+                            Matricular
+                        </button>
+                    </form>
+                }
+
+            </div>
+
+        </div>
+    }
+}
+else
+{
+    <p style="text-align:center;">
+        No se encontraron cursos.
+    </p>
+}
+
+<div class="form-footer">
+    <a asp-controller="Estudiante" asp-action="Index" class="btn-dashboard">
+        Volver
+    </a>
+</div>

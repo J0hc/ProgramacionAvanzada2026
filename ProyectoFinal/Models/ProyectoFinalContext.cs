@@ -14,6 +14,8 @@ namespace ProyectoFinal.Models
         public DbSet<Profesor> Profesores { get; set; }
         public DbSet<Curso> Cursos { get; set; }
 
+        public DbSet<Matricula> Matriculas { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

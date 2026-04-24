@@ -1,35 +1,112 @@
-﻿<h1 class="dashboard-title">¡Bienvenido, Administrador!</h1>
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Administrador</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
 
 
-<!-- Opciones para Crear -->
-<div class="dashboard-actions">
+    <!-- CONTENIDO -->
+    <div style="width: 1100px; margin: 40px auto;">
 
-    <a asp-controller="Curso"
-       asp-action="Create"
-       class="btn-dashboard">
-        Registrar Cursos
-    </a>
+        <h1 class="dashboard-title">¡Bienvenido, Administrador!</h1>
 
-    <a asp-controller="Carreras"
-       asp-action="Create"
-       class="btn-dashboard">
-        Registrar Carreras
-    </a>
+        <!-- ACCIONES -->
+        <div class="dashboard-actions">
 
-    <a asp-controller="Profesor"
-       asp-action="Create"
-       class="btn-dashboard">
-        Registrar Profesores
-    </a>
+            <a asp-controller="Curso" asp-action="Create" class="btn btn-success">
+                Registrar Cursos
+            </a>
 
-</div>
+            <a asp-controller="Carreras" asp-action="Create" class="btn btn-success">
+                Registrar Carreras
+            </a>
 
-<div class="section-divider"></div>
+            <a asp-controller="Profesor" asp-action="Create" class="btn btn-success">
+                Registrar Profesores
+            </a>
 
+        </div>
 
-<!--Se termina luego, aqui se cargan las carreras-->
-<h3 class="section-title">Todas las carreras</h3>
+        <div class="section-divider"></div>
 
-<a asp-controller="Carreras" asp-action="Index" class="btn-dashboard">
-    Gestionar Carreras
-</a>
+        <!-- GESTIÓN -->
+        <h3 class="section-title">Gestión Académica</h3>
+
+        <div class="dashboard-actions">
+
+            <a asp-controller="Carreras" asp-action="Index" class="btn btn-primary">
+                Gestionar Carreras
+            </a>
+
+            <a asp-controller="Curso" asp-action="Index" class="btn btn-primary">
+                Gestionar Cursos
+            </a>
+
+            <a asp-controller="Profesor" asp-action="Index" class="btn btn-primary">
+                Gestionar Profesores
+            </a>
+
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- TABLA -->
+        <h3 class="section-title">Resumen del Sistema</h3>
+
+        <div class="table-container">
+            <table class="admin-table dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Área</th>
+                        <th>Descripción</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>Carreras</td>
+                        <td>Administrar todas las carreras disponibles</td>
+                        <td>
+                            <a asp-controller="Carreras"
+                               asp-action="Index"
+                               class="btn btn-warning">
+                                Ir a Carreras
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Cursos</td>
+                        <td>Gestión completa de cursos académicos</td>
+                        <td>
+                            <a asp-controller="Curso"
+                               asp-action="Index"
+                               class="btn btn-warning">
+                                Ir a Cursos
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Profesores</td>
+                        <td>Administrar profesores registrados</td>
+                        <td>
+                            <a asp-controller="Profesor"
+                               asp-action="Index"
+                               class="btn btn-warning">
+                                Ir a Profesores
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+      </body>
+</html>
