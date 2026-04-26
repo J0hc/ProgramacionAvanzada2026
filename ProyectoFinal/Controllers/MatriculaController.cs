@@ -62,38 +62,65 @@ namespace ProyectoFinal.Controllers
 
         // POST MATRICULAR
         [HttpPost]
-        public async Task<IActionResult> Create(int cursoId)
+        public async Task<IActionResult> Create([FromBody] IdDTO data)
         {
+            var cursoId = data.Id;
+            var nombre = User.Identity.Name; // Pasamos Nombre
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (cursoId <= 0)
+                return Json(new { success = false, message = "Id inválido" });
+
+            var cursoExiste = await _context.Cursos
+                .AnyAsync(c => c.Id == cursoId);
+
+            if (!cursoExiste)
+                return Json(new { success = false, message = "Curso no existe" });
 
             var total = await _context.Matriculas
                 .CountAsync(m => m.EstudianteId == userId);
 
             if (total >= 4)
-                return RedirectToAction("Index");
+                return Json(new { success = false, message = "Límite alcanzado" });
 
             var existe = await _context.Matriculas
                 .AnyAsync(m => m.EstudianteId == userId && m.CursoId == cursoId);
 
             if (!existe)
             {
-                var matricula = new Matricula
+                _context.Matriculas.Add(new Matricula
                 {
                     EstudianteId = userId,
                     CursoId = cursoId
-                };
+                });
 
-                _context.Matriculas.Add(matricula);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index");
+            // Registrar auditoria
+            await AuditoriaHelper.Registrar(
+             _context,
+             userId,
+             nombre,
+            "Crear",
+            "Matricula",
+             $"Matriculó curso ID {cursoId}"
+            );
+
+
+            return Json(new { success = true });
         }
 
         // BORRAR
         [HttpPost]
-        public async Task<IActionResult> Delete(int cursoId)
+        public async Task<IActionResult> Delete([FromBody] IdDTO data)
         {
+
+            var nombre = User.Identity.Name;
+
+            var cursoId = data.Id;
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var matricula = await _context.Matriculas
@@ -105,7 +132,17 @@ namespace ProyectoFinal.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("Index");
+            // Registrar auditoria
+            await AuditoriaHelper.Registrar(
+            _context,
+             userId,
+             nombre,
+             "Eliminar",
+            "Matricula",
+            $"Eliminó curso ID {cursoId}"
+            );
+
+            return Json(new { success = true });
         }
     }
 }

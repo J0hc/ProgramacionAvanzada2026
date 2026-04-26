@@ -12,17 +12,16 @@
 <h3 class="section-title">Cursos disponibles</h3>
 
 <!-- fILTRO BUSCAR -->
-<form method="get" asp-action="Index" style="text-align:center; margin-bottom:25px;">
+<form method="get" asp-action="Index" class="search-bar">
 
     <input type="text"
            name="search"
            value="@ViewBag.Search"
            placeholder="Buscar curso..."
-           class="form-input"
-           style="width:250px; display:inline-block;" />
+           class="search-input" />
 
-    <button type="submit" class="btn-dashboard">
-        🔍
+    <button type="submit" class="search-btn">
+        <i class="bi bi-search"></i>
     </button>
 
 </form>
@@ -69,13 +68,12 @@
                 }
                 else
                 {
-                    <form asp-action="Create" method="post">
-                        <input type="hidden" name="cursoId" value="@curso.Id" />
-
-                        <button type="submit" class="btn-card">
-                            Matricular
-                        </button>
-                    </form>
+                    <button class="btn btn-success"
+                            onclick="ajaxPost(this)"
+                            data-url="/Matricula/Create"
+                            data-id="@curso.Id">
+                        Matricular
+                    </button>
                 }
 
             </div>
@@ -91,7 +89,9 @@ else
 }
 
 <div class="form-footer">
-    <a asp-controller="Estudiante" asp-action="Index" class="btn-dashboard">
+    <a asp-controller="Estudiante"
+       asp-action="Index"
+       class="btn btn-secondary">
         Volver
     </a>
 </div>

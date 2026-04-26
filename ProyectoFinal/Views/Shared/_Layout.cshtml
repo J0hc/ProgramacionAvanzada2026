@@ -30,7 +30,7 @@
 
                 <div style="display:flex; align-items:center; gap:15px;">
 
-                    @* 🔒 SOLO SI ESTÁ LOGUEADO *@
+                   
                     @if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
                         @* ADMIN *@
@@ -41,7 +41,7 @@
                             </span>
                         }
 
-                        @* ESTUDIANTE *@
+                  
                         @if (User.IsInRole("Estudiante"))
                         {
                             <div style="display:flex; align-items:center; gap:10px;">
@@ -53,7 +53,7 @@
                                     <i class="bi bi-mortarboard-fill"></i> Estudiante
                                 </span>
 
-                                <button class="btn btn-warning"
+                                <button class="btn-link-custom"
                                         data-bs-toggle="modal"
                                         data-bs-target="#miCuentaModal">
                                     Mi Cuenta
@@ -123,6 +123,12 @@
         </div>
     }
 
+    <script>
+        if (!sessionStorage.getItem("previousPage")) {
+            sessionStorage.setItem("previousPage", document.referrer);
+        }
+    </script>
+
     <!-- SCRIPTS -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -132,3 +138,4 @@
 
 </body>
 </html>
+

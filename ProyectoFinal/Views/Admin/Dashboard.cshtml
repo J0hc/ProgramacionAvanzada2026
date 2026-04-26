@@ -1,112 +1,109 @@
-﻿<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard Administrador</title>
-    <link rel="stylesheet" href="css/styles.css">
-</head>
+﻿<div class="container mt-5" style="max-width:1200px;">
 
-<body>
+    <h1 class="dashboard-title text-center mb-4">
+        Panel Administrativo
+    </h1>
 
+    <!-- MÉTRICAS -->
+    <div class="row text-center mb-5">
 
-    <!-- CONTENIDO -->
-    <div style="width: 1100px; margin: 40px auto;">
+        <div class="col-md-4">
+            <div class="metric-card">
+                <i class="bi bi-mortarboard-fill metric-icon"></i>
+                <h2>@ViewBag.TotalCarreras</h2>
+                <p>Carreras</p>
+            </div>
+        </div>
 
-        <h1 class="dashboard-title">¡Bienvenido, Administrador!</h1>
+        <div class="col-md-4">
+            <div class="metric-card">
+                <i class="bi bi-journal-bookmark-fill metric-icon"></i>
+                <h2>@ViewBag.TotalCursos</h2>
+                <p>Cursos</p>
+            </div>
+        </div>
 
-        <!-- ACCIONES -->
-        <div class="dashboard-actions">
+        <div class="col-md-4">
+            <div class="metric-card">
+                <i class="bi bi-person-badge-fill metric-icon"></i>
+                <h2>@ViewBag.TotalProfesores</h2>
+                <p>Profesores</p>
+            </div>
+        </div>
 
-            <a asp-controller="Curso" asp-action="Create" class="btn btn-success">
-                Registrar Cursos
-            </a>
+    </div>
 
-            <a asp-controller="Carreras" asp-action="Create" class="btn btn-success">
-                Registrar Carreras
-            </a>
+    <!-- Acciones Rapidas de acceso -->
+    <div class="d-flex justify-content-center gap-3 mb-5">
 
-            <a asp-controller="Profesor" asp-action="Create" class="btn btn-success">
-                Registrar Profesores
-            </a>
+        <a asp-controller="Curso" asp-action="Create" class="btn btn-outline-success btn-sm">
+            + Curso
+        </a>
+
+        <a asp-controller="Carreras" asp-action="Create" class="btn btn-outline-success btn-sm">
+            + Carrera
+        </a>
+
+        <a asp-controller="Profesor" asp-action="Create" class="btn btn-outline-success btn-sm">
+            + Profesor
+        </a>
+
+    </div>
+
+    <!-- GRÁFICO -->
+    <div class="card shadow-sm p-4 mb-5 mx-auto"
+         style="height: 500px; max-width: 900px;">
+
+        <h5 class="mb-4 text-center">Distribución del sistema</h5>
+
+        <div class="d-flex justify-content-center align-items-center h-100">
+
+            <canvas id="graficoSistema"
+                    style="max-width: 350px; max-height: 350px;">
+            </canvas>
 
         </div>
 
-        <div class="section-divider"></div>
+    </div>
 
-        <!-- GESTIÓN -->
-        <h3 class="section-title">Gestión Académica</h3>
+    <!-- GESTIÓN  -->
+    <div class="text-center">
 
-        <div class="dashboard-actions">
+        <a asp-controller="Carreras" asp-action="Index" class="link-dashboard">
+            Gestionar Carreras
+        </a> |
 
-            <a asp-controller="Carreras" asp-action="Index" class="btn btn-primary">
-                Gestionar Carreras
-            </a>
+        <a asp-controller="Curso" asp-action="Index" class="link-dashboard">
+            Gestionar Cursos
+        </a> |
 
-            <a asp-controller="Curso" asp-action="Index" class="btn btn-primary">
-                Gestionar Cursos
-            </a>
+        <a asp-controller="Profesor" asp-action="Index" class="link-dashboard">
+            Gestionar Profesores
+        </a> |
+        <a asp-controller="Admin" asp-action="Auditoria" class="link-dashboard">
+            Gestionar Auditoria
+        </a>
 
-            <a asp-controller="Profesor" asp-action="Index" class="btn btn-primary">
-                Gestionar Profesores
-            </a>
+    </div>
 
-        </div>
+</div>
 
-        <div class="section-divider"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        <!-- TABLA -->
-        <h3 class="section-title">Resumen del Sistema</h3>
+<script>
+    const ctx = document.getElementById('graficoSistema');
 
-        <div class="table-container">
-            <table class="admin-table dashboard-table">
-                <thead>
-                    <tr>
-                        <th>Área</th>
-                        <th>Descripción</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    <tr>
-                        <td>Carreras</td>
-                        <td>Administrar todas las carreras disponibles</td>
-                        <td>
-                            <a asp-controller="Carreras"
-                               asp-action="Index"
-                               class="btn btn-warning">
-                                Ir a Carreras
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Cursos</td>
-                        <td>Gestión completa de cursos académicos</td>
-                        <td>
-                            <a asp-controller="Curso"
-                               asp-action="Index"
-                               class="btn btn-warning">
-                                Ir a Cursos
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>Profesores</td>
-                        <td>Administrar profesores registrados</td>
-                        <td>
-                            <a asp-controller="Profesor"
-                               asp-action="Index"
-                               class="btn btn-warning">
-                                Ir a Profesores
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-      </body>
-</html>
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Carreras', 'Cursos', 'Profesores'],
+            datasets: [{
+                data: [
+                    @ViewBag.TotalCarreras,
+                    @ViewBag.TotalCursos,
+                    @ViewBag.TotalProfesores
+                ]
+            }]
+        }
+    });
+</script>

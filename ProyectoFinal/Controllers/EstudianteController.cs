@@ -32,6 +32,21 @@ public class EstudianteController : Controller
         ViewBag.TotalCursos = estudiante?.Matriculas?.Count() ?? 0;
         ViewBag.FotoUrl = estudiante?.FotoUrl;
 
+        // Cursos de la carrera
+        var totalCursosCarrera = await _context.Cursos
+            .CountAsync(c => c.CarreraId == estudiante.CarreraId);
+
+        // cursos matriculados
+        var cursosMatriculados = estudiante.Matriculas?.Count() ?? 0;
+
+        // porcentaje
+        int porcentaje = totalCursosCarrera == 0
+            ? 0
+            : (int)((double)cursosMatriculados / totalCursosCarrera * 100);
+
+        ViewBag.Progreso = porcentaje;
+        ViewBag.TotalCarrera = totalCursosCarrera;
+
         // Pasar
         return View(estudiante);
     }
@@ -99,8 +114,8 @@ public class EstudianteController : Controller
         }
 
         await _context.SaveChangesAsync();
-
-        return RedirectToAction("Index");
         ViewBag.FotoUrl = estudiante.FotoUrl;
+        return RedirectToAction("Index");
+        
     }
 }

@@ -38,18 +38,23 @@
             </select>
         </div>
 
-        <button type="submit" class="btn-main">
+        <button type="submit" class="btn btn-success center-btn">
             Guardar Cambios
         </button>
 
     </form>
 
     <div class="form-footer">
-        <a asp-action="Index">Volver</a>
+        <a asp-controller="Estudiante"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Volver
+        </a>
     </div>
 
 </div>
 
+<!-- SCRIPT para alertar de cambio de carrera -->
 <script>
     const selectCarrera = document.querySelector("[name='CarreraId']");
     const form = document.querySelector("form");

@@ -20,11 +20,48 @@
 
     </div>
 
+    <div style="display:flex; justify-content:center; margin:40px 0;">
+
+        <div class="progress-container">
+
+            <svg width="160" height="160">
+
+                <!-- Fondo -->
+                <circle cx="80" cy="80" r="70"
+                        stroke="#eee"
+                        stroke-width="12"
+                        fill="none" />
+
+                <!-- Progreso -->
+                <circle cx="80" cy="80" r="70"
+                        stroke="#4CAF50"
+                        stroke-width="12"
+                        fill="none"
+                        stroke-dasharray="440"
+                        stroke-dashoffset="@((440 - (440 * ViewBag.Progreso / 100)))"
+                        stroke-linecap="round"
+                        transform="rotate(-90 80 80)" />
+
+            </svg>
+
+            <div class="progress-text">
+                <h2>@ViewBag.Progreso%</h2>
+                <p>Progreso</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <p style="text-align:center;">
+        @ViewBag.TotalCursos / @ViewBag.TotalCarrera cursos completados
+    </p>
+
     <!-- BOTÓN REGISTRAR -->
     <div class="dashboard-actions">
         <a asp-controller="Matricula"
            asp-action="Index"
-           class="btn-dashboard">
+           class="btn btn-success">
             Registrar Cursos
         </a>
     </div>
@@ -40,7 +77,7 @@
         {
             var curso = m.Curso;
 
-            <div class="carrera-card">
+            <div class="carrera-card d-flex align-items-center">
 
                 @if (curso.ImagenUrl != null)
                 {
@@ -54,13 +91,13 @@
                 </div>
 
                 <!-- BOTÓN BORRAR -->
-                <form asp-controller="Matricula" asp-action="Delete" method="post">
-                    <input type="hidden" name="cursoId" value="@curso.Id" />
-
-                    <button type="submit" class="btn btn-danger" style="background:#d9534f;">
-                        Quitar
-                    </button>
-                </form>
+                <button class="btn btn-danger ms-auto"
+                        style="background:#d9534f;"
+                        onclick="ajaxPost(this)"
+                        data-url="/Matricula/Delete"
+                        data-id="@curso.Id">
+                    Quitar
+                </button>
 
             </div>
         }
