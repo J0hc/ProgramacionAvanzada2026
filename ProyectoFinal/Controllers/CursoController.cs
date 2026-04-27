@@ -11,14 +11,14 @@ namespace CrudCursos.Controllers
     {
         private readonly ProyectoFinalContext _context;
         private readonly FirebaseStorageService _firebase;
-        private readonly FirestoreService _firestore;
+        
 
         //FIREBASE
-        public CursoController(ProyectoFinalContext context, FirebaseStorageService firebase, FirestoreService firestore)
+        public CursoController(ProyectoFinalContext context, FirebaseStorageService firebase)
         {
             _context = context;
             _firebase = firebase;
-            _firestore = firestore;
+            
         }
 
         // INDEX
@@ -60,8 +60,6 @@ namespace CrudCursos.Controllers
 
             ViewData["Carreras"] = new SelectList(_context.Carreras, "Id", "Nombre", curso.CarreraId);
             ViewData["Profesores"] = new SelectList(_context.Profesores, "Id", "NombreCompleto", curso.ProfesorId);
-
-            await _firestore.GuardarLog("logs_cursos", curso.Nombre, "Curso creado");
 
             return View(curso);
         }

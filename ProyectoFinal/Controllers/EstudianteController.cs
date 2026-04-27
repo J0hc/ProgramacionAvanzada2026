@@ -10,14 +10,13 @@ public class EstudianteController : Controller
 {
     private readonly ProyectoFinalContext _context;
     private readonly FirebaseStorageService _firebase;
-    private readonly FirestoreService _firestore;
+    
 
     // Firebas
-    public EstudianteController(ProyectoFinalContext context, FirebaseStorageService firebase, FirestoreService firestore)
+    public EstudianteController(ProyectoFinalContext context, FirebaseStorageService firebase)
     {
         _context = context;
         _firebase = firebase;
-        _firestore = firestore;
     }
 
     // INDEX
@@ -70,8 +69,6 @@ public class EstudianteController : Controller
 
         ViewBag.Carreras = await _context.Carreras.ToListAsync();
         ViewBag.FotoUrl = estudiante.FotoUrl;
-
-        await _firestore.GuardarLog("logs_estudiantes", estudiante.NombreCompleto, "Perfil actualizado");
 
         return View(estudiante);
     }
