@@ -3,16 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Models;
 using System.Security.Claims;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 [Authorize(Roles = "Estudiante")]
 public class EstudianteController : Controller
 {
     private readonly ProyectoFinalContext _context;
     private readonly FirebaseStorageService _firebase;
-    
 
-    // Firebas
     public EstudianteController(ProyectoFinalContext context, FirebaseStorageService firebase)
     {
         _context = context;
@@ -39,7 +36,6 @@ public class EstudianteController : Controller
         ViewBag.TotalCursos = estudiante.Matriculas?.Count ?? 0;
         ViewBag.FotoUrl = estudiante.FotoUrl;
 
-        // Barra
         var totalCursosCarrera = await _context.Cursos
             .CountAsync(c => c.CarreraId == estudiante.CarreraId);
 
@@ -61,7 +57,6 @@ public class EstudianteController : Controller
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
         var estudiante = await _context.Users
-            .Include(u => u.Carrera)
             .FirstOrDefaultAsync(u => u.Id == userId);
 
         if (estudiante == null)
@@ -75,6 +70,7 @@ public class EstudianteController : Controller
 
     // POST EDIT
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(ApplicationUser model, IFormFile foto)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -86,32 +82,49 @@ public class EstudianteController : Controller
         if (estudiante == null)
             return NotFound();
 
-        // Cambiar Carrera
-        bool cambioCarrera = estudiante.CarreraId != model.CarreraId;
-
-        // Actuaizar
-        estudiante.NombreCompleto = model.NombreCompleto;
-        estudiante.Email = model.Email;
-        estudiante.CarreraId = model.CarreraId;
-
-        // Foto firebase
-        if (foto != null && foto.Length > 0)
+        try
         {
-            var url = await _firebase.SubirImagenAsync(foto);
-            estudiante.FotoUrl = url;
-        }
+            bool cambioCarrera = estudiante.CarreraId != model.CarreraId;
 
-        if (cambioCarrera)
+            // elimina matriculas
+            if (cambioCarrera)
+            {
+                var matriculas = await _context.Matriculas
+                    .Where(m => m.EstudianteId == userId)
+                    .ToListAsync();
+
+                _context.Matriculas.RemoveRange(matriculas);
+            }
+
+            // Actualiza datos
+            estudiante.NombreCompleto = model.NombreCompleto;
+            estudiante.Email = model.Email;
+            estudiante.CarreraId = model.CarreraId;
+
+            // Foto
+            if (foto != null && foto.Length > 0)
+            {
+                try
+                {
+                    var url = await _firebase.SubirImagenAsync(foto);
+                    estudiante.FotoUrl = url;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error subiendo imagen: " + ex.Message);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+        catch (Exception ex)
         {
-            var matriculas = await _context.Matriculas
-                .Where(m => m.EstudianteId == userId)
-                .ToListAsync();
+            Console.WriteLine("ERROR GENERAL: " + ex.Message);
 
-            _context.Matriculas.RemoveRange(matriculas);
+            ViewBag.Carreras = await _context.Carreras.ToListAsync();
+            return View(model);
         }
-
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction("Index");
     }
 }
