@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Models;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Registrar Context
 builder.Services.AddDbContext<ProyectoFinalContext>(options =>
@@ -13,8 +16,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ProyectoFinalContext>()
     .AddDefaultTokenProviders();
 
-// Patrones MVC
+//Firebase
+builder.Services.AddScoped<FirebaseStorageService>();
+
+// MVC
 builder.Services.AddControllersWithViews();
+
+//Storage
+builder.Services.AddHttpClient<FirestoreService>();
 
 var app = builder.Build();
 

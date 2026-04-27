@@ -51,7 +51,9 @@
             @if (!string.IsNullOrEmpty(Model.ImagenUrl))
             {
                 <div style="text-align:center; margin-bottom:10px;">
-                    <img src="@Model.ImagenUrl" class="carrera-img" style="width:150px; height:auto;" />
+                    <img src="@Model.ImagenUrl"
+                         onerror="this.src='/images/default-user.png'"
+                         style="width:120px; height:auto; border-radius:10px;" />
                 </div>
             }
             else

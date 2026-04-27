@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 public class Registro
 {
-    [Required]
+    [Required(ErrorMessage = "El nombre es obligatorio")]
     public string NombreCompleto { get; set; }
 
     [Required, EmailAddress]
@@ -21,7 +21,7 @@ public class Registro
     [Required(ErrorMessage = "Selecciona una carrera")]
     public int CarreraId { get; set; }
 
-    // Dropdown
+    // Dropdown Carreras
     [ValidateNever]
     public IEnumerable<SelectListItem> Carreras { get; set; }
 }

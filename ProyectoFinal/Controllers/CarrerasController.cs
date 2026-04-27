@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using global::ProyectoFinal.Models;
+using ProyectoFinal.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ProyectoFinal.Controllers
@@ -7,62 +7,63 @@ namespace ProyectoFinal.Controllers
     public class CarrerasController : Controller
     {
         private readonly ProyectoFinalContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly FirebaseStorageService _firebase;
 
-        public CarrerasController(ProyectoFinalContext context, IWebHostEnvironment webHostEnvironment)
+        //FIREBASE
+        public CarrerasController(ProyectoFinalContext context, FirebaseStorageService firebase)
         {
             _context = context;
-            _webHostEnvironment = webHostEnvironment;
+            _firebase = firebase;
         }
 
-        // PARA LISTAR
-        public async Task<IActionResult> Index()
+        // INDEX
+       public async Task<IActionResult> Index()
         {
             var carreras = await _context.Carreras.ToListAsync();
             return View(carreras);
         }
 
+        
         // CREATE GET
         public IActionResult Create() => View();
 
-        // CREATE POST
+         // CREATE POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Carrera carrera)
         {
             if (ModelState.IsValid)
             {
-                if (carrera.Imagen != null)
+                // Subir Firebase
+                if (carrera.Imagen != null && carrera.Imagen.Length > 0)
                 {
-                    string uploads = Path.Combine(_webHostEnvironment.WebRootPath, "imagenes/carreras");
-                    Directory.CreateDirectory(uploads);
-
-                    string fileName = Guid.NewGuid() + Path.GetExtension(carrera.Imagen.FileName);
-                    string filePath = Path.Combine(uploads, fileName);
-
-                    using (var fs = new FileStream(filePath, FileMode.Create))
-                        await carrera.Imagen.CopyToAsync(fs);
-
-                    carrera.ImagenUrl = "/imagenes/carreras/" + fileName;
+                    var url = await _firebase.SubirImagenAsync(carrera.Imagen);
+                    carrera.ImagenUrl = url;
                 }
 
                 _context.Carreras.Add(carrera);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
             return View(carrera);
         }
 
+      
         // EDIT GET
+      
         public async Task<IActionResult> Edit(int id)
         {
             var carrera = await _context.Carreras.FindAsync(id);
             if (carrera == null) return NotFound();
+
             return View(carrera);
         }
 
+
         // EDIT POST
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Carrera carrera)
@@ -75,35 +76,31 @@ namespace ProyectoFinal.Controllers
                 carreraDb.Nombre = carrera.Nombre;
                 carreraDb.Escuela = carrera.Escuela;
 
-                if (carrera.Imagen != null)
+               if (carrera.Imagen != null && carrera.Imagen.Length > 0)
                 {
-                    string uploads = Path.Combine(_webHostEnvironment.WebRootPath, "imagenes/carreras");
-                    Directory.CreateDirectory(uploads);
-
-                    string fileName = Guid.NewGuid() + Path.GetExtension(carrera.Imagen.FileName);
-                    string filePath = Path.Combine(uploads, fileName);
-
-                    using (var fs = new FileStream(filePath, FileMode.Create))
-                        await carrera.Imagen.CopyToAsync(fs);
-
-                    carreraDb.ImagenUrl = "/imagenes/carreras/" + fileName;
+                    var url = await _firebase.SubirImagenAsync(carrera.Imagen);
+                    carreraDb.ImagenUrl = url;
                 }
 
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(carrera);
         }
 
-        // DELETE
+         // DELETE
         public async Task<IActionResult> Delete(int id)
         {
             var carrera = await _context.Carreras.FindAsync(id);
+
             if (carrera != null)
             {
                 _context.Carreras.Remove(carrera);
                 await _context.SaveChangesAsync();
             }
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -112,6 +109,7 @@ namespace ProyectoFinal.Controllers
         {
             var carrera = await _context.Carreras.FindAsync(id);
             if (carrera == null) return NotFound();
+
             return View(carrera);
         }
     }

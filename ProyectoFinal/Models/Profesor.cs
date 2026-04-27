@@ -15,6 +15,7 @@ namespace ProyectoFinal.Models
         public string Email { get; set; }
 
         [Display(Name = "Especialidad")]
+        [Required(ErrorMessage = "La especialidad es obligatoria")]
         public string Especialidad { get; set; }
     }
 }

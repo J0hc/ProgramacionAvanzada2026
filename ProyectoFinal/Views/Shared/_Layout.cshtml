@@ -30,7 +30,6 @@
 
                 <div style="display:flex; align-items:center; gap:15px;">
 
-                   
                     @if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
                         @* ADMIN *@
@@ -41,12 +40,13 @@
                             </span>
                         }
 
-                  
+                        @* ESTUDIANTE *@
                         @if (User.IsInRole("Estudiante"))
                         {
                             <div style="display:flex; align-items:center; gap:10px;">
 
                                 <img src="@(string.IsNullOrEmpty(foto) ? "/images/default-user.png" : foto)"
+                                     onerror="this.src='/images/default-user.png'"
                                      style="width:35px; height:35px; border-radius:50%; object-fit:cover;" />
 
                                 <span class="role-badge role-estudiante">
@@ -76,7 +76,6 @@
         </main>
     </div>
 
-   <!--  Modal -->
     @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Estudiante"))
     {
         <div class="modal fade" id="miCuentaModal" tabindex="-1">
@@ -89,23 +88,12 @@
                     </div>
 
                     <div class="modal-body">
-
                         <p><strong>Nombre:</strong> @ViewBag.Nombre</p>
-
-                        <p>
-                            <strong>Carrera:</strong>
-                            @ViewBag.Carrera
-                        </p>
-
-                        <p>
-                            <strong>Cursos matriculados:</strong>
-                            @ViewBag.TotalCursos
-                        </p>
-
+                        <p><strong>Carrera:</strong> @ViewBag.Carrera</p>
+                        <p><strong>Cursos matriculados:</strong> @ViewBag.TotalCursos</p>
                     </div>
 
                     <div class="modal-footer">
-
                         <button class="btn btn-secondary" data-bs-dismiss="modal">
                             Cerrar
                         </button>
@@ -115,7 +103,6 @@
                            class="btn btn-primary">
                             Editar Cuenta
                         </a>
-
                     </div>
 
                 </div>
@@ -123,13 +110,6 @@
         </div>
     }
 
-    <script>
-        if (!sessionStorage.getItem("previousPage")) {
-            sessionStorage.setItem("previousPage", document.referrer);
-        }
-    </script>
-
-    <!-- SCRIPTS -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -138,4 +118,3 @@
 
 </body>
 </html>
-

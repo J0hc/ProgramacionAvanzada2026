@@ -8,10 +8,12 @@ namespace ProyectoFinal.Controllers
     public class MatriculaController : Controller
     {
         private readonly ProyectoFinalContext _context;
+        private readonly FirestoreService _firestore;
 
-        public MatriculaController(ProyectoFinalContext context)
+        public MatriculaController(ProyectoFinalContext context, FirestoreService firestore)
         {
             _context = context;
+            _firestore = firestore;
         }
 
         // GET
@@ -108,6 +110,10 @@ namespace ProyectoFinal.Controllers
              $"Matriculó curso ID {cursoId}"
             );
 
+            //Log Crear Matricula
+
+            await _firestore.GuardarLog("logs_matriculas", nombre, "Matricula creada");
+
 
             return Json(new { success = true });
         }
@@ -141,6 +147,10 @@ namespace ProyectoFinal.Controllers
             "Matricula",
             $"Eliminó curso ID {cursoId}"
             );
+
+            //Log Elimina
+
+            await _firestore.GuardarLog("logs_eliminaciones", nombre, "Matricula eliminada");
 
             return Json(new { success = true });
         }

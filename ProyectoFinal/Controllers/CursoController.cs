@@ -2,30 +2,36 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFinal.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CrudCursos.Controllers
 {
+
     public class CursoController : Controller
     {
         private readonly ProyectoFinalContext _context;
-        private readonly IWebHostEnvironment _env;
+        private readonly FirebaseStorageService _firebase;
+        private readonly FirestoreService _firestore;
 
-        public CursoController(ProyectoFinalContext context, IWebHostEnvironment env)
+        //FIREBASE
+        public CursoController(ProyectoFinalContext context, FirebaseStorageService firebase, FirestoreService firestore)
         {
             _context = context;
-            _env = env;
+            _firebase = firebase;
+            _firestore = firestore;
         }
 
-        // GET: Cursos
+        // INDEX
         public async Task<IActionResult> Index()
         {
             var cursos = _context.Cursos
                 .Include(c => c.Carrera)
                 .Include(c => c.Profesor);
+
             return View(await cursos.ToListAsync());
         }
 
-        // GET: Crear
+        // CREATE GET
         public IActionResult Create()
         {
             ViewData["Carreras"] = new SelectList(_context.Carreras, "Id", "Nombre");
@@ -33,38 +39,34 @@ namespace CrudCursos.Controllers
             return View();
         }
 
-        // POST: Crear
+        // CREATE POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Curso curso)
         {
             if (ModelState.IsValid)
             {
-                if (curso.Imagen != null)
+                if (curso.Imagen != null && curso.Imagen.Length > 0)
                 {
-                    var uploads = Path.Combine(_env.WebRootPath, "images");
-                    if (!Directory.Exists(uploads))
-                        Directory.CreateDirectory(uploads);
-
-                    var filePath = Path.Combine(uploads, curso.Imagen.FileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await curso.Imagen.CopyToAsync(stream);
-                    }
-                    curso.ImagenUrl = "/images/" + curso.Imagen.FileName;
+                    var url = await _firebase.SubirImagenAsync(curso.Imagen);
+                    curso.ImagenUrl = url;
                 }
 
                 _context.Add(curso);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
             ViewData["Carreras"] = new SelectList(_context.Carreras, "Id", "Nombre", curso.CarreraId);
             ViewData["Profesores"] = new SelectList(_context.Profesores, "Id", "NombreCompleto", curso.ProfesorId);
+
+            await _firestore.GuardarLog("logs_cursos", curso.Nombre, "Curso creado");
+
             return View(curso);
         }
 
-        // GET: Cursos/Edit/5
+        // EDIT GET
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -74,10 +76,11 @@ namespace CrudCursos.Controllers
 
             ViewData["Carreras"] = new SelectList(_context.Carreras, "Id", "Nombre", curso.CarreraId);
             ViewData["Profesores"] = new SelectList(_context.Profesores, "Id", "NombreCompleto", curso.ProfesorId);
+
             return View(curso);
         }
 
-        // POST: Cursos/Edit/5
+        // EDIT POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Curso curso)
@@ -96,18 +99,10 @@ namespace CrudCursos.Controllers
                     cursoDb.CarreraId = curso.CarreraId;
                     cursoDb.ProfesorId = curso.ProfesorId;
 
-                    if (curso.Imagen != null)
+                    if (curso.Imagen != null && curso.Imagen.Length > 0)
                     {
-                        var uploads = Path.Combine(_env.WebRootPath, "images");
-                        if (!Directory.Exists(uploads))
-                            Directory.CreateDirectory(uploads);
-
-                        var filePath = Path.Combine(uploads, curso.Imagen.FileName);
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await curso.Imagen.CopyToAsync(stream);
-                        }
-                        cursoDb.ImagenUrl = "/images/" + curso.Imagen.FileName;
+                        var url = await _firebase.SubirImagenAsync(curso.Imagen);
+                        cursoDb.ImagenUrl = url;
                     }
 
                     _context.Update(cursoDb);
@@ -118,15 +113,17 @@ namespace CrudCursos.Controllers
                     if (!CursoExists(curso.Id)) return NotFound();
                     else throw;
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 
             ViewData["Carreras"] = new SelectList(_context.Carreras, "Id", "Nombre", curso.CarreraId);
             ViewData["Profesores"] = new SelectList(_context.Profesores, "Id", "NombreCompleto", curso.ProfesorId);
+
             return View(curso);
         }
 
-        // GET: Cursos/Delete/5
+        // DELETE GET
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -141,20 +138,23 @@ namespace CrudCursos.Controllers
             return View(curso);
         }
 
-        // POST: Cursos/Delete/5
+        // DELETE POST
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var curso = await _context.Cursos.FindAsync(id);
+
             if (curso != null)
             {
                 _context.Cursos.Remove(curso);
                 await _context.SaveChangesAsync();
             }
+
             return RedirectToAction(nameof(Index));
         }
 
+        // VALIDACIÓN
         private bool CursoExists(int id)
         {
             return _context.Cursos.Any(e => e.Id == id);

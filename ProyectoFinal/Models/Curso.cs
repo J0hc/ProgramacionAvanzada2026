@@ -9,10 +9,10 @@ namespace ProyectoFinal.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El nombre es obligatorio")]
         public string Nombre { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "Los creditos son obligatorios")]
         public int Creditos { get; set; }
 
         public string? ImagenUrl { get; set; }

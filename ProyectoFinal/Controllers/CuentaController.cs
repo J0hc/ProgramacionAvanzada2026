@@ -104,21 +104,36 @@ namespace ProyectoFinal.Controllers
         [HttpGet]
         public IActionResult Login() => View();
 
-        
+
         // POST: Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Login model)
         {
-            if (!ModelState.IsValid) return View(model);
+            // 1. Validaciones del modelo 
+            if (!ModelState.IsValid)
+                return View(model);
 
+            // Login
             var result = await _signInManager.PasswordSignInAsync(
-                model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                model.Email,
+                model.Password,
+                model.RememberMe,
+                lockoutOnFailure: false
+            );
 
+            // Login correcto
             if (result.Succeeded)
             {
-                // Redirigir según el rol
                 var user = await _userManager.FindByEmailAsync(model.Email);
+
+                
+                if (user == null)
+                {
+                    ModelState.AddModelError("", "Email o contraseña incorrecta");
+                    return View(model);
+                }
+
                 var roles = await _userManager.GetRolesAsync(user);
 
                 if (roles.Contains("Administrador"))
@@ -127,7 +142,21 @@ namespace ProyectoFinal.Controllers
                     return RedirectToAction("Index", "Estudiante");
             }
 
-            ModelState.AddModelError("", "Email o contraseña incorrecta");
+            //Manejo de errores 
+            if (result.IsLockedOut)
+            {
+                ModelState.AddModelError("", "Cuenta bloqueada. Intente más tarde.");
+            }
+            else if (result.IsNotAllowed)
+            {
+                ModelState.AddModelError("", "Acceso no permitido.");
+            }
+            else
+            {
+                
+                ModelState.AddModelError("", "Email o contraseña incorrecta");
+            }
+
             return View(model);
         }
 
