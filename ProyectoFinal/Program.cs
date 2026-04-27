@@ -64,14 +64,6 @@ else
     }
 }
 
-// Inicializar Firebase
-if (FirebaseApp.DefaultInstance == null)
-{
-    FirebaseApp.Create(new AppOptions()
-    {
-        Credential = GoogleCredential.FromFile(firebasePath)
-    });
-}
 
 // Middleware
 app.UseHttpsRedirection();
